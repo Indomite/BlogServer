@@ -5,6 +5,7 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const session = require('koa-session')
 
 const index = require('./routes/index')
 const user = require('./routes/user')
@@ -31,6 +32,17 @@ app.use(async (ctx, next) => {
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
+
+//把session写在router前面
+app.keys = ['secret']
+app.use(session({
+  //配置cookie
+  cooike: {
+    path: '/',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000
+  }
+}, app))
 
 // routes
 app.use(index.routes(), index.allowedMethods())

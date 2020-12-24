@@ -1,6 +1,7 @@
 const router = require('koa-router')()
 const {
-  register
+  register,
+  login
 } = require('../controller/user')
 const {
   SuccessModel,
@@ -29,5 +30,22 @@ router.post('/login', async (ctx, next) => {
   }
   ctx.body = new ErrorModel('登录失败')
 })
+
+router.post('/vertify', async (ctx, next) => {
+  
+})
+
+//测试session
+// router.get('/session-test', async (ctx, next) => {
+//   if (ctx.session.viewCount == null) {
+//     ctx.session.viewCount = 0
+//   }
+//   ctx.session.viewCount++
+
+//   ctx.body = {
+//     error: 0,
+//     viewCount: ctx.session.viewCount
+//   }
+// })
 
 module.exports = router
