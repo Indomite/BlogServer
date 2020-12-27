@@ -6,6 +6,7 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const session = require('koa-session')
+const redisStore = require('koa-redis')
 
 const index = require('./routes/index')
 const user = require('./routes/user')
@@ -33,20 +34,9 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
-//把session写在router前面
-app.keys = ['secret']
-app.use(session({
-  //配置cookie
-  cooike: {
-    path: '/',
-    httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000
-  }
-}, app))
-
 // routes
-app.use(index.routes(), index.allowedMethods())
-app.use(user.routes(), user.allowedMethods())
+app.use(index.routes(), index.allowedMethods());
+app.use(user.routes(), user.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {

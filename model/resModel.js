@@ -1,6 +1,3 @@
-//定义Model，用于处理中间返回数据
-
-//基类型
 class BaseModel {
     constructor(data, message) {
         if (typeof data === 'string') {
@@ -17,19 +14,17 @@ class BaseModel {
     }
 }
 
-//成功的数据模型
 class SuccessModel extends BaseModel {
     constructor(data, message) {
         super(data, message)
-        this.errno = 0
+        this.code = 0
     }
 }
 
-//失败的数据模型
 class ErrorModel extends BaseModel {
     constructor(data, message) {
         super(data, message)
-        this.errno = -1
+        this.code = -1
     }
 }
 

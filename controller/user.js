@@ -1,30 +1,41 @@
-const {
-    exec
-} = require('../db/mysql')
+const jwt = require('jsonwebtoken');
 
-const register = async (userData = {}) => {
-    const username = userData.username
-    const password = userData.password
-    const email = userData.email
-    const sql = `
-        insert into user (role_id,username,password,email,avatar_url,access_token,status) values ('10','${username}','${password}','${email}',' ',' ','1')
-    `
-    const insertData = await exec(sql)
-    return {
-        id: insertData.insertId
+const UserModel = require('../model/userModel')
+const { JWT_SECRET } = require('../config/secret')
+
+class User {
+    //创建用户
+    static async create(ctx){
+        let { username, password, email} = ctx.request.body;
+        let params = { username, password, email}
+        let errors = [];
+
+        //用户名是否存在
+        const isExistUser = await UserModel.username(params.username);
+        if(isExistUser){
+            ctx.response.status = 403;
+            ctx.body = {
+                code: 403,
+                message: '用户名已存在'
+            }
+        } else {
+            try{
+                await UserModel.create(params);
+                ctx.response.status = 200;
+                ctx.body = {
+                    code: 200,
+                    message: `创建用户成功`,
+                    // data: token
+                }
+            } catch(err) {
+                ctx.response.status = 500;
+                ctx.body = {
+                    code: 500,
+                    message: err
+                }
+            }
+        }
     }
 }
 
-const login = async (username, password) => {
-    // username = escape(username)
-    // password = escape(password)
-    const sql = `select * from user where username='${username}' and password='${password}'`
-    const rows = await exec(sql);
-    console.log(rows[0].username);
-    return rows[0]
-}
-
-module.exports = {
-    register,
-    login
-}
+module.exports = User
