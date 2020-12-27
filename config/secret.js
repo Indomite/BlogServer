@@ -1,3 +1,4 @@
 module.exports = {
-    JWT_SECRE: "Indomite"
+    JWT_SECRET: "Indomite",
+    SECRET_KEY: "Indomite"
 }

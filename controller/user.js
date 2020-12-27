@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const UserModel = require('../model/userModel')
+const { genPassword } = require('../utils/crpy')
 const { JWT_SECRET } = require('../config/secret')
 
 class User {
@@ -20,6 +21,7 @@ class User {
             }
         } else {
             try{
+                params.password = genPassword(password);
                 await UserModel.create(params);
                 ctx.response.status = 200;
                 ctx.body = {
