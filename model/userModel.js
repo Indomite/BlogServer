@@ -45,7 +45,7 @@ class UserModel {
     }
 
     //更新单个用户信息
-    static async updateInfo(id,data){
+    static async updateUserInfo(id, data){
         await User.update(data, {
             where: {
                 id

@@ -30,6 +30,7 @@ module.exports = function(sequelize, DataTypes) {
     create_time: {
       type: DataTypes.DATE,
       allowNull: false,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       comment: "创建时间"
     },
     update_time: {

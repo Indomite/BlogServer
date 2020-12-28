@@ -10,7 +10,7 @@ router.post('/user/register', User.create);
 //用户登录
 router.post('/user/login', User.login);
 //用户列表
-router.get('/user/list', User.list);
+router.get('/user/list', User.userList);
 //更改用户信息
 router.put('/user/update:id',User.usersInfoUpdate);
 //更新用户信息

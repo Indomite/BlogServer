@@ -84,8 +84,8 @@ class User {
         }
     }
 
-        //用户列表 - 获取用户列表数据
-    static async list(ctx){
+    //用户列表 - 获取用户列表数据
+    static async userList(ctx){
         try{
             const data = await UserModel.findAllUserList();
             ctx.response.status = 200;
@@ -106,7 +106,7 @@ class User {
     //管理员编辑用户 - 修改用户信息
     static async usersInfoUpdate(ctx){
         let { id } = ctx.request.body;
-        console.log(id);
+        // console.log(id);
         if(!id || isNaN(id)){
             ctx.response.status = 412;
             ctx.body = {
@@ -133,7 +133,7 @@ class User {
             ctx.body = {
                 code: 200,
                 message: "修改成功",
-                data
+                // data
             }
         } catch (err) {
             ctx.response.status = 500;
@@ -147,26 +147,23 @@ class User {
 
     //编辑信息 - 修改个人信息
     static async personalInfoUpdate(ctx){
-        let { id } = ctx.request.body;
         let data = ctx.request.body;
-        // console.log(data);
         let params = {
-            // username: data.username,
             password: data.password,
             email: data.email,
             avatar_url: data.avatar_url,
             status: data.status,
         }
         try{
-            console.log(id,params);
-            await UserModel.updateInfo(id,params);
+            // console.log(id);
+            await UserModel.updateUserInfo(id,params);
             let data = await UserModel.userDetail(id);
             console.log(data);
             ctx.response.status = 200;
             ctx.body = {
                 code: 200,
                 message: "修改成功",
-                data
+                // data
             }
         } catch (err) {
             ctx.response.status = 500;

@@ -10,6 +10,7 @@ const redisStore = require('koa-redis')
 
 const index = require('./routes/index')
 const user = require('./routes/user')
+const article = require('./routes/article')
 
 // error handler
 onerror(app)
@@ -37,6 +38,7 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods());
 app.use(user.routes(), user.allowedMethods());
+app.use(article.routes(), article.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {
