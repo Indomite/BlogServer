@@ -24,12 +24,33 @@ class UserModel {
         })
     }
 
-    static async update(id, data){
+    //单个用户信息
+    static async userDetail(id){
+        return await User.findOne({
+            where:{
+                id
+            }
+        })
+    }
+    
+    //更新用户信息
+    static async updateUsers(id, data){
         await User.update(data, {
             where: {
-                id,
+                id
             },
-            fields: ['username', 'password', 'email']
+            fields: ['username', 'password', 'email', 'status']
+        })
+        return true
+    }
+
+    //更新单个用户信息
+    static async updateInfo(id,data){
+        await User.update(data, {
+            where: {
+                id
+            },
+            fields: ['username', 'password', 'email', 'avatar_url', 'status']
         })
         return true
     }

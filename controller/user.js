@@ -11,7 +11,6 @@ class User {
     static async create(ctx){
         let { username, password, email} = ctx.request.body;
         let params = { username, password, email}
-        let errors = [];
 
         //用户名是否存在
         const isExistUser = await UserModel.username(params.username);
@@ -46,6 +45,7 @@ class User {
         const { username, password } = ctx.request.body;
         // 查询用户信息
         const userDetail = await UserModel.username(username);
+        // console.log(userDetail);
         if(!userDetail) {
             ctx.response.status = 403;
             ctx.body = {
@@ -59,10 +59,9 @@ class User {
         if(genPassword(password) === userDetail.password){
             //用户的Token
             const userToken = {
-                username: userDetail.username,
                 id: userDetail.id,
-                email: userDetail.email,
-                avatar_url:userDetail.avatar_url
+                username: userDetail.username,
+                email: userDetail.email
             };
             //签发token
             const token = jwt.sign(userToken,JWT_SECRET,{expiresIn:'1h'});
@@ -71,7 +70,8 @@ class User {
                 code: 200,
                 message: '登录成功',
                 data: {
-                    ...userToken,
+                    //获取用户数据
+                    ...userDetail.dataValues,
                     token: token
                 }
             }
@@ -84,35 +84,7 @@ class User {
         }
     }
 
-    //编辑用户 - 修改用户信息
-    static async update(ctx){
-        let { id } = ctx.params;
-        if(!id || isNaN(id)){
-            ctx.response.status = 412;
-            ctx.body = {
-                code: 412,
-                message: '用户ID不存在'
-            }
-            return false
-        }
-
-        try{
-            await UserModel.update(id);
-            ctx.response.status = 200;
-            ctx.body = {
-                code: 200,
-                message: "修改成功"
-            }
-        } catch {
-            ctx.response.status = 500;
-            ctx.body = {
-                code: 500,
-                message: err
-            }
-        }
-    }
-
-    //用户列表 - 获取用户列表数据
+        //用户列表 - 获取用户列表数据
     static async list(ctx){
         try{
             const data = await UserModel.findAllUserList();
@@ -127,6 +99,81 @@ class User {
             ctx.body = {
                 code: 500,
                 message: err
+            }
+        }
+    }
+
+    //管理员编辑用户 - 修改用户信息
+    static async usersInfoUpdate(ctx){
+        let { id } = ctx.request.body;
+        console.log(id);
+        if(!id || isNaN(id)){
+            ctx.response.status = 412;
+            ctx.body = {
+                code: 412,
+                message: '用户ID不存在'
+            }
+            return false
+        }
+
+        let data = ctx.request.body;
+        //可被修改的属性
+        let params = {
+            // username: data.username,
+            password: data.password,
+            email: data.email,
+            status: data.status,
+        }
+        try{
+            // console.log(id,params);
+            await UserModel.updateUsers(id,params);
+            let data = await UserModel.userDetail(id);
+            console.log(data);
+            ctx.response.status = 200;
+            ctx.body = {
+                code: 200,
+                message: "修改成功",
+                data
+            }
+        } catch (err) {
+            ctx.response.status = 500;
+            ctx.body = {
+                code: 500,
+                message: '编辑信息失败',
+                data: err
+            }
+        }
+    }
+
+    //编辑信息 - 修改个人信息
+    static async personalInfoUpdate(ctx){
+        let { id } = ctx.request.body;
+        let data = ctx.request.body;
+        // console.log(data);
+        let params = {
+            // username: data.username,
+            password: data.password,
+            email: data.email,
+            avatar_url: data.avatar_url,
+            status: data.status,
+        }
+        try{
+            console.log(id,params);
+            await UserModel.updateInfo(id,params);
+            let data = await UserModel.userDetail(id);
+            console.log(data);
+            ctx.response.status = 200;
+            ctx.body = {
+                code: 200,
+                message: "修改成功",
+                data
+            }
+        } catch (err) {
+            ctx.response.status = 500;
+            ctx.body = {
+                code: 500,
+                message: '编辑信息失败',
+                data: err
             }
         }
     }

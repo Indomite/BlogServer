@@ -45,9 +45,9 @@ module.exports = function(sequelize, DataTypes) {
       comment: "更新时间"
     },
     status: {
-      type: "ENUM('')",
-      allowNull: true,
-      defaultValue: "",
+      type: DataTypes.CHAR(1),
+      allowNull: false,
+      defaultValue: "1",
       comment: "状态"
     }
   }, {
