@@ -24,11 +24,12 @@ class UserModel {
         })
     }
 
-    static async delete(id){
-        await User.destroy({
+    static async update(id, data){
+        await User.update(data, {
             where: {
                 id,
-            }
+            },
+            fields: ['username', 'password', 'email']
         })
         return true
     }
@@ -36,7 +37,7 @@ class UserModel {
     //查询所有用户信息
     static async findAllUserList(){
         return await User.findAll({
-
+            attributes: ['username','role_id','email','create_time','status']
         })
     }
 }
