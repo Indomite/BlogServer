@@ -7,8 +7,8 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    u_id: {
-      type: DataTypes.INTEGER,
+    email: {
+      type: DataTypes.STRING(255),
       allowNull: false,
       comment: "用户id"
     },
@@ -19,12 +19,14 @@ module.exports = function(sequelize, DataTypes) {
     },
     create_time: {
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: false,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       comment: "创建时间"
     },
     status: {
-      type: "ENUM('')",
-      allowNull: true,
+      type: DataTypes.STRING(10),
+      allowNull: false,
+      defaultValue: "0",
       comment: "状态"
     }
   }, {
