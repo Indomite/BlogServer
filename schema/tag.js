@@ -19,13 +19,18 @@ module.exports = function(sequelize, DataTypes) {
     },
     create_time: {
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: false,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       comment: "创建时间"
     },
     update_time: {
       type: DataTypes.DATE,
       allowNull: true,
       comment: "更新时间"
+    },
+    status: {
+      type: DataTypes.STRING(255),
+      allowNull: false
     }
   }, {
     sequelize,
