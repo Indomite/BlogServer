@@ -17,9 +17,10 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       comment: "用户id"
     },
-    like_time: {
+    create_time: {
       type: DataTypes.DATE,
       allowNull: true,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       comment: "点赞时间"
     },
     status: {
