@@ -21,7 +21,7 @@ router.post('/user/login', User.login);
 //用户列表
 router.get('/user', User.userList);
 //更改用户信息
-router.put('/user/update:id',User.usersInfoUpdate);
+router.put('/user:id',User.usersInfoUpdate);
 //更新用户信息
 router.put('/user',User.personalInfoUpdate);
 
@@ -32,9 +32,9 @@ router.get('/article:id', Article.articleInfo);
 //添加文章
 router.post('/article', Article.createArticle);
 //删除文章
-router.delete('/article/delete:id', Article.deleteArticle);
+router.delete('/article:id', Article.deleteArticle);
 //更新文章
-router.put('/article/update:id', Article.updateArticle);
+router.put('/article:id', Article.updateArticle);
 
 //获取留言列表
 router.get('/comment', Comment.commentList);
@@ -43,7 +43,7 @@ router.get('/comment:id', Comment.commentInfo);
 //添加留言
 router.post('/comment', Comment.createComment);
 //删除留言
-router.delete('/comment/delete:id', Comment.deleteComment);
+router.delete('/comment:id', Comment.deleteComment);
 
 //获取标签列表
 router.get('/tag', Tag.tagList);
@@ -52,8 +52,8 @@ router.get('/tag:id', Tag.tagInfo);
 //添加标签
 router.post('/tag', Tag.createTag);
 //删除标签
-router.delete('/tag/delete:id', Tag.deleteTag);
+router.delete('/tag:id', Tag.deleteTag);
 //更新标签
-router.put('/tag/update:id', Tag.updateTag);
+router.put('/tag:id', Tag.updateTag);
 
 module.exports = router
