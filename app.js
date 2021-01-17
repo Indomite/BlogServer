@@ -8,11 +8,7 @@ const logger = require('koa-logger')
 const session = require('koa-session')
 const redisStore = require('koa-redis')
 
-const index = require('./routes/index')
-const user = require('./routes/user')
-const article = require('./routes/article')
-const comment = require('./routes/comment')
-const tag = require('./routes/tag')
+const Router = require('./routes')
 
 // error handler
 onerror(app)
@@ -38,11 +34,7 @@ app.use(async (ctx, next) => {
 })
 
 // routes
-app.use(index.routes(), index.allowedMethods());
-app.use(user.routes(), user.allowedMethods());
-app.use(article.routes(), article.allowedMethods());
-app.use(comment.routes(), comment.allowedMethods());
-app.use(tag.routes(), tag.allowedMethods());
+app.use(Router.routes(), Router.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {

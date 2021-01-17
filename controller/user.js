@@ -4,7 +4,6 @@ const UserModel = require('../model/userModel')
 const { genPassword } = require('../utils/crpy')
 const { JWT_SECRET } = require('../config/secret');
 const user = require('../schema/user');
-const { param } = require('../routes/user');
 
 class User {
     //用户注册 - 创建用户
