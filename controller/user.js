@@ -67,7 +67,7 @@ class User {
             ctx.response.status = 200;
             ctx.body = {
                 code: 200,
-                message: '登录成功',
+                message: '登录成功',    
                 data: {
                     //获取用户数据
                     ...userDetail.dataValues,
