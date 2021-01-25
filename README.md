@@ -67,3 +67,5 @@
 - copyright：版权信息
 - ICP：备案信息
 - links：网站链接
+
+<!-- sequelize-auto -o "./schema" -d blog -h localhost -u root -x  -p 3306 -->

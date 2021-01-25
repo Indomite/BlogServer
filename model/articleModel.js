@@ -22,15 +22,14 @@ class ArticleModel {
 
     //增加文章
     static async createArticle(articleInfo){
-        let {user_id,tag_id,headline,cover_url,content,status} = articleInfo;
+        let {user_id,tag_id,headline,outline,content} = articleInfo;
+        console.log(articleInfo);
         await Article.create({
             user_id,
             tag_id,
             headline,
             outline,
-            cover_url,
-            content,
-            status
+            content
         })
         return true
     }

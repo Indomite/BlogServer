@@ -33,10 +33,10 @@ app.use(async (ctx, next) => {
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
-
++
 app.use(cors({
   origin: function (ctx) {
-      return '*'; // 这样就能只允许 http://localhost:8080 这个域名的请求了
+      return 'http://localhost:8080'; // 这样就能只允许 http://localhost:8080 这个域名的请求了
   },
   exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
   maxAge: 5,

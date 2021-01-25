@@ -40,7 +40,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     cover_url: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
       comment: "文章图片"
     },
     content: {

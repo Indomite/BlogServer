@@ -30,7 +30,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     status: {
       type: DataTypes.STRING(255),
-      allowNull: false
+      allowNull: false,
+      defaultValue: "1"
     }
   }, {
     sequelize,

@@ -15,7 +15,7 @@ router.get('/index', async (ctx, next) => {
 })
 
 //用户注册
-router.post('/user/register', User.create);
+router.post('/user', User.create);
 //用户登录
 router.post('/user/login', User.login);
 //用户列表
