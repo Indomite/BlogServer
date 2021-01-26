@@ -58,7 +58,7 @@ class UserModel {
     //查询所有用户信息
     static async findAllUserList(){
         return await User.findAll({
-            attributes: ['username','role_id','email','create_time','status']
+            attributes: ['id','username','role_id','email','create_time','status']
         })
     }
 }

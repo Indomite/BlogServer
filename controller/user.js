@@ -104,7 +104,8 @@ class User {
 
     //管理员编辑用户 - 修改用户信息
     static async usersInfoUpdate(ctx){
-        let { id } = ctx.request.body;
+        // console.log(ctx.params);
+        let { id } = ctx.params;
         // console.log(id);
         if(!id || isNaN(id)){
             ctx.response.status = 412;
@@ -119,12 +120,12 @@ class User {
         //可被修改的属性
         let params = {
             // username: data.username,
-            password: data.password,
+            password: genPassword(data.password),
             email: data.email,
             status: data.status,
         }
         try{
-            // console.log(id,params);
+            console.log(id,params);
             await UserModel.updateUsers(id,params);
             let data = await UserModel.userDetail(id);
             console.log(data);
