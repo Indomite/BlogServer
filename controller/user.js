@@ -119,11 +119,12 @@ class User {
         let data = ctx.request.body;
         //可被修改的属性
         let params = {
-            // username: data.username,
+            username: data.username,
             password: genPassword(data.password),
             email: data.email,
             status: data.status,
         }
+        console.log(params);
         try{
             console.log(id,params);
             await UserModel.updateUsers(id,params);
