@@ -36,7 +36,7 @@ app.use(async (ctx, next) => {
 +
 app.use(cors({
   origin: function (ctx) {
-      return 'http://localhost:8081'; // 这样就能只允许 http://localhost:8080 这个域名的请求了
+      return 'http://localhost:8080'|'http://localhost:8081';; // 这样就能只允许 http://localhost:8080 这个域名的请求了
   },
   exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
   maxAge: 5,
