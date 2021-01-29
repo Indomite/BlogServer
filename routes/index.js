@@ -19,7 +19,7 @@ router.get('/index', async (ctx, next) => {
 //用户注册
 router.post('/user', User.create);
 //用户登录
-router.post('/user/login', User.login);
+router.post('/login', User.login);
 //用户列表
 router.get('/user', User.userList);
 //更改用户信息

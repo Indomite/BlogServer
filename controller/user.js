@@ -9,38 +9,28 @@ class User {
     //用户注册 - 创建用户
     static async create(ctx){
         let { username, password, email, code} = ctx.request.body;
-        console.log(ErrorModel);
         if(email !== ctx.session.email) {
             ctx.body = new ErrorModel('邮箱已修改')
-            return 
+            return
         }
         if(code !== ctx.session.verifyCode) {
             ctx.body = new ErrorModel('验证码错误')
             return
         }
 
-        let params = { username, password, email}
-
-        //用户名是否存在
+        let params = { username, password, email }
+        // 判断用户名是否存在
         const isExistUser = await UserModel.username(params.username);
         if(isExistUser){
-            ctx.body = {
-                status: 403,
-                message: '用户名已存在'
-            }
+            ctx.body = new ErrorModel('用户名存在')
+            ctx.body.status = 403
         } else {
             try{
                 params.password = genPassword(password);
                 await UserModel.create(params);
-                ctx.body = {
-                    status: 200,
-                    message: `创建用户成功`
-                }
+                ctx.body = new SuccessModel('注册成功')
             } catch(err) {
-                ctx.body = {
-                    status: 500,
-                    message: err
-                }
+                ctx.body = new ErrorModel(err)
             }
         }
     }
@@ -50,14 +40,10 @@ class User {
         const { username, password } = ctx.request.body;
         // 查询用户信息
         const userDetail = await UserModel.username(username);
-        // console.log(userDetail);
         if(!userDetail) {
-            ctx.response.status = 403;
-            ctx.body = {
-                status: 403,
-                message: "用户不存在" 
-            }
-            return false;
+            ctx.body = new ErrorModel('用户不存在')
+            ctx.body.status = 403;
+            return
         }
 
         //校验密码
@@ -70,22 +56,15 @@ class User {
             };
             //签发token
             const token = jwt.sign(userToken,JWT_SECRET,{expiresIn:'1h'});
-            ctx.response.status = 200;
-            ctx.body = {
-                status: 200,
-                message: '登录成功',    
-                data: {
-                    //获取用户数据
-                    ...userDetail.dataValues,
-                    token: token
-                }
+            ctx.body = new SuccessModel('登录成功')
+            ctx.body.data = {
+                //获取用户数据
+                ...userDetail.dataValues,
+                token: token
             }
         } else {
-            ctx.response.status = 401;
-            ctx.response = {
-                status: 401,
-                message: '用户名或密码错误'
-            }
+            ctx.body = new ErrorModel('密码错误')
+            ctx.body.status = 401;
         }
     }
 

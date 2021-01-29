@@ -17,14 +17,14 @@ class BaseModel {
 class SuccessModel extends BaseModel {
     constructor(data, message) {
         super(data, message)
-        this.code = 200
+        this.status = 200
     }
 }
 
 class ErrorModel extends BaseModel {
     constructor(data, message) {
         super(data, message)
-        this.code = 404
+        this.status = 404
     }
 }
 

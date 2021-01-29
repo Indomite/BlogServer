@@ -9,7 +9,7 @@ class Email {
             await sendEmail(email, verifyCode)
             ctx.session.email = email
             ctx.session.verifyCode = verifyCode
-            ctx.body = new SuccessModel(email,'发送成功')
+            ctx.body = new SuccessModel('发送成功')
         } catch(err) {
             ctx.body = new ErrorModel(err)
         }
