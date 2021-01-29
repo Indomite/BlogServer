@@ -6,9 +6,9 @@ const { genPassword } = require('../utils/crpy')
 const { JWT_SECRET } = require('../config/secret')
 
 class User {
-    //用户注册 - 创建用户
+    // 用户注册
     static async create(ctx){
-        let { username, password, email, code} = ctx.request.body;
+        let { username, password, email, code} = ctx.request.body
         if(email !== ctx.session.email) {
             ctx.body = new ErrorModel('邮箱已修改')
             return
@@ -20,7 +20,7 @@ class User {
 
         let params = { username, password, email }
         // 判断用户名是否存在
-        const isExistUser = await UserModel.username(params.username);
+        const isExistUser = await UserModel.username(params.username)
         if(isExistUser){
             ctx.body = new ErrorModel('用户名存在')
             ctx.body.status = 403
@@ -70,14 +70,16 @@ class User {
 
     //用户列表 - 获取用户列表数据
     static async userList(ctx){
+        // 获取jwt
+        const token = ctx.header.authorization;
+        if (!token) {
+            ctx.body = new ErrorModel('Token不能为空')
+            ctx.body.status = 403
+        }
         try{
-            const data = await UserModel.findAllUserList();
-            ctx.response.status = 200;
-            ctx.body = {
-                status: 200,
-                message: "获取成功",
-                data
-            }
+            const data = await UserModel.findAllUserList()
+            ctx.body = new SuccessModel('获取用户成功')
+            ctx.body.data = data
         } catch(err) {
             ctx.response.status = 500;
             ctx.body = {
