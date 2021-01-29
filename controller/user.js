@@ -1,14 +1,22 @@
 const jwt = require('jsonwebtoken');
 
 const UserModel = require('../model/userModel')
+const Email = require('./email')
 const { genPassword } = require('../utils/crpy')
-const { JWT_SECRET } = require('../config/secret');
-const user = require('../schema/user');
+const { JWT_SECRET } = require('../config/secret')
 
 class User {
     //用户注册 - 创建用户
     static async create(ctx){
-        let { username, password, email} = ctx.request.body;
+        let { username, password, email, code} = ctx.request.body;
+        console.log(code);
+        if(code !== ctx.session.verifyCode) {
+            ctx.body = {
+                code: 403,
+                message: '验证码错误'
+            }
+            return
+        }
         let params = { username, password, email}
 
         //用户名是否存在
@@ -26,8 +34,7 @@ class User {
                 ctx.response.status = 200;
                 ctx.body = {
                     code: 200,
-                    message: `创建用户成功`,
-                    // data: token
+                    message: `创建用户成功`
                 }
             } catch(err) {
                 ctx.response.status = 500;

@@ -3,10 +3,12 @@ const router = new Router({
   prefix: '/api',
 });
 
+const User = require('../controller/user')
 const Article = require('../controller/article')
 const Comment = require('../controller/comment')
 const Tag = require('../controller/tag')
-const User = require('../controller/user')
+const Email = require('../controller/email')
+
 
 router.get('/index', async (ctx, next) => {
   ctx.body = {
@@ -22,8 +24,7 @@ router.post('/user/login', User.login);
 router.get('/user', User.userList);
 //更改用户信息
 router.put('/user:id',User.usersInfoUpdate);
-//更新用户信息
-router.put('/user',User.personalInfoUpdate);
+router.post('/email',Email.sentCode);
 
 //获取文章列表
 router.get('/article', Article.articleList);

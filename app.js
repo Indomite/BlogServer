@@ -19,11 +19,11 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-// app.use(require('koa-static')(__dirname + '/public'))
+app.use(require('koa-static')(__dirname + '/public'))
 
-// app.use(views(__dirname + '/views', {
-//   extension: 'pug'
-// }))
+app.use(views(__dirname + '/views', {
+  extension: 'pug'
+}))
 
 // logger
 app.use(async (ctx, next) => {
@@ -32,6 +32,17 @@ app.use(async (ctx, next) => {
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
+
+// session 配置
+app.keys = [''];
+app.use(session({
+  // 配置 cookie
+  cookie: {
+    path: '/',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000
+  }
+},app))
 
 // 服务端解决跨域
 app.use(cors({

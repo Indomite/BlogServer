@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize')
 const db = require('../config/database')
 const Sequelize = db.sequelize
 const User = require('../schema/user')(Sequelize, DataTypes);
@@ -56,7 +56,7 @@ class UserModel {
     }
 
     //查询所有用户信息
-    static async findAllUserList(){
+    static async findAllUserList(query){
         return await User.findAll({
             attributes: ['id','username','role_id','email','create_time','status']
         })
