@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 10,
-      comment: "用户权限id"
+      comment: "10:一般用户 20:管理员 30:超级管理员"
     },
     username: {
       type: DataTypes.STRING(255),
@@ -48,7 +48,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.CHAR(1),
       allowNull: false,
       defaultValue: "1",
-      comment: "状态"
+      comment: "1:未锁定 0:锁定"
     }
   }, {
     sequelize,

@@ -10,12 +10,12 @@ module.exports = function(sequelize, DataTypes) {
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      comment: "用户id"
+      comment: "文章对应的用户id"
     },
     tag_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      comment: "标签id"
+      comment: "文章对应的标签id"
     },
     headline: {
       type: DataTypes.STRING(255),
@@ -41,7 +41,7 @@ module.exports = function(sequelize, DataTypes) {
     cover_url: {
       type: DataTypes.STRING(255),
       allowNull: true,
-      comment: "文章图片"
+      comment: "文章封面图片"
     },
     content: {
       type: DataTypes.TEXT,
@@ -64,7 +64,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: false,
       defaultValue: "1",
-      comment: "状态"
+      comment: "1：未锁定，0：锁定"
     }
   }, {
     sequelize,
