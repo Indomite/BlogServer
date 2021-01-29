@@ -24,6 +24,7 @@ router.post('/login', User.login);
 router.get('/user', User.userList);
 //更改用户信息
 router.put('/user:id',User.usersInfoUpdate);
+//发送邮件
 router.post('/email',Email.sentCode);
 
 //获取文章列表

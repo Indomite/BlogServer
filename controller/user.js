@@ -55,7 +55,7 @@ class User {
                 email: userDetail.email
             };
             //签发token
-            const token = jwt.sign(userToken,JWT_SECRET,{expiresIn:'1h'});
+            const token = jwt.sign(userToken, JWT_SECRET, { expiresIn:'1h' });
             ctx.body = new SuccessModel('登录成功')
             ctx.body.data = {
                 //获取用户数据
@@ -70,22 +70,12 @@ class User {
 
     //用户列表 - 获取用户列表数据
     static async userList(ctx){
-        // 获取jwt
-        const token = ctx.header.authorization;
-        if (!token) {
-            ctx.body = new ErrorModel('Token不能为空')
-            ctx.body.status = 403
-        }
         try{
             const data = await UserModel.findAllUserList()
             ctx.body = new SuccessModel('获取用户成功')
             ctx.body.data = data
         } catch(err) {
-            ctx.response.status = 500;
-            ctx.body = {
-                status: 500,
-                message: err
-            }
+            ctx.body = new ErrorModel(err)
         }
     }
 

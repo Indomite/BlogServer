@@ -34,7 +34,7 @@ app.use(async (ctx, next) => {
 })
 
 // session 配置
-app.keys = [''];
+app.keys = ['Indomite'];
 app.use(session({
   // 配置 cookie
   cookie: {
