@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const UserModel = require('../model/userModel')
-const Email = require('./email')
+const { SuccessModel, ErrorModel } = require('../model/resModel')
 const { genPassword } = require('../utils/crpy')
 const { JWT_SECRET } = require('../config/secret')
 
@@ -9,37 +9,36 @@ class User {
     //用户注册 - 创建用户
     static async create(ctx){
         let { username, password, email, code} = ctx.request.body;
-        console.log(code);
+        console.log(ErrorModel);
+        if(email !== ctx.session.email) {
+            ctx.body = new ErrorModel('邮箱已修改')
+            return 
+        }
         if(code !== ctx.session.verifyCode) {
-            ctx.body = {
-                code: 403,
-                message: '验证码错误'
-            }
+            ctx.body = new ErrorModel('验证码错误')
             return
         }
+
         let params = { username, password, email}
 
         //用户名是否存在
         const isExistUser = await UserModel.username(params.username);
         if(isExistUser){
-            ctx.response.status = 403;
             ctx.body = {
-                code: 403,
+                status: 403,
                 message: '用户名已存在'
             }
         } else {
             try{
                 params.password = genPassword(password);
                 await UserModel.create(params);
-                ctx.response.status = 200;
                 ctx.body = {
-                    code: 200,
+                    status: 200,
                     message: `创建用户成功`
                 }
             } catch(err) {
-                ctx.response.status = 500;
                 ctx.body = {
-                    code: 500,
+                    status: 500,
                     message: err
                 }
             }
@@ -55,7 +54,7 @@ class User {
         if(!userDetail) {
             ctx.response.status = 403;
             ctx.body = {
-                code: 403,
+                status: 403,
                 message: "用户不存在" 
             }
             return false;
@@ -73,7 +72,7 @@ class User {
             const token = jwt.sign(userToken,JWT_SECRET,{expiresIn:'1h'});
             ctx.response.status = 200;
             ctx.body = {
-                code: 200,
+                status: 200,
                 message: '登录成功',    
                 data: {
                     //获取用户数据
@@ -84,7 +83,7 @@ class User {
         } else {
             ctx.response.status = 401;
             ctx.response = {
-                code: 401,
+                status: 401,
                 message: '用户名或密码错误'
             }
         }
@@ -96,14 +95,14 @@ class User {
             const data = await UserModel.findAllUserList();
             ctx.response.status = 200;
             ctx.body = {
-                code: 200,
+                status: 200,
                 message: "获取成功",
                 data
             }
         } catch(err) {
             ctx.response.status = 500;
             ctx.body = {
-                code: 500,
+                status: 500,
                 message: err
             }
         }
@@ -117,7 +116,7 @@ class User {
         if(!id || isNaN(id)){
             ctx.response.status = 412;
             ctx.body = {
-                code: 412,
+                status: 412,
                 message: '用户ID不存在'
             }
             return false
@@ -137,14 +136,12 @@ class User {
             await UserModel.updateUsers(id,params);
             let data = await UserModel.userDetail(id);
             console.log(data);
-            ctx.response.status = 200;
             ctx.body = {
                 code: 200,
                 message: "修改成功",
                 // data
             }
         } catch (err) {
-            ctx.response.status = 500;
             ctx.body = {
                 code: 500,
                 message: '编辑信息失败',
@@ -163,18 +160,15 @@ class User {
             status: data.status,
         }
         try{
-            // console.log(id);
             await UserModel.updateUserInfo(id,params);
             let data = await UserModel.userDetail(id);
             console.log(data);
-            ctx.response.status = 200;
             ctx.body = {
                 code: 200,
                 message: "修改成功",
                 // data
             }
         } catch (err) {
-            ctx.response.status = 500;
             ctx.body = {
                 code: 500,
                 message: '编辑信息失败',

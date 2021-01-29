@@ -1,4 +1,5 @@
 const { sendEmail } = require('../utils/sendEmail')
+const { SuccessModel, ErrorModel } = require('../model/resModel')
 
 class Email {
     static async sentCode (ctx) {
@@ -6,19 +7,11 @@ class Email {
             let { email } = ctx.request.body;
             let verifyCode = Math.floor(Math.random()*999999).toString()
             await sendEmail(email, verifyCode)
+            ctx.session.email = email
             ctx.session.verifyCode = verifyCode
-            ctx.body = {
-                meta: {
-                    msg: "发送成功",
-                    status: 200
-                }
-            }
+            ctx.body = new SuccessModel(email,'发送成功')
         } catch(err) {
-            ctx.response.status = 500;
-            ctx.body = {
-                code: 500,
-                message: err
-            }
+            ctx.body = new ErrorModel(err)
         }
     }
 }
