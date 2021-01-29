@@ -7,7 +7,6 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const cors = require('koa2-cors');
 const session = require('koa-session')
-const redisStore = require('koa-redis')
 
 const Router = require('./routes')
 
@@ -20,11 +19,11 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+// app.use(require('koa-static')(__dirname + '/public'))
 
-app.use(views(__dirname + '/views', {
-  extension: 'pug'
-}))
+// app.use(views(__dirname + '/views', {
+//   extension: 'pug'
+// }))
 
 // logger
 app.use(async (ctx, next) => {
@@ -33,7 +32,8 @@ app.use(async (ctx, next) => {
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
-+
+
+// 服务端解决跨域
 app.use(cors({
   origin: function (ctx) {
       return 'http://localhost:8080'|'http://localhost:8081';; // 这样就能只允许 http://localhost:8080 这个域名的请求了

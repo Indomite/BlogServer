@@ -35,10 +35,11 @@
 - look_times：浏览次数
 - status：状态
 
-### comment（留言表）
+### comment（评论表）
 
-- id：id 号
-- email：用户邮箱
+- id：ID号
+- user_id：用户ID
+- article_id：文章ID
 - content：留言内容
 - create_time：留言创建时间
 - status：点赞状态
