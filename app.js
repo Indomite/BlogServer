@@ -9,6 +9,9 @@ const cors = require('koa2-cors');
 const session = require('koa-session')
 
 const Router = require('./routes')
+const checkLogin = require('./middleware/jwtToken')
+
+app.use(checkLogin)
 
 // error handler
 onerror(app)

@@ -49,13 +49,13 @@ class User {
         //校验密码
         if(genPassword(password) === userDetail.password){
             //用户的Token
-            const userToken = {
+            const payLoad = {
                 id: userDetail.id,
                 username: userDetail.username,
                 email: userDetail.email
             };
             //签发token
-            const token = jwt.sign(userToken, JWT_SECRET, { expiresIn:'1h' });
+            const token = jwt.sign(payLoad, JWT_SECRET, { expiresIn:'1h' });
             ctx.body = new SuccessModel('登录成功')
             ctx.body.data = {
                 //获取用户数据
