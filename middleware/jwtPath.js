@@ -5,7 +5,7 @@ module.exports = [
     // 注册
     '/api/user',
     // 邮件
-    '/api/email',
+    // '/api/email',
     // 文章列表
     '/api/article'
 ];

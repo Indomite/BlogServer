@@ -10,19 +10,25 @@ async function checkLogin(ctx, next) {
     if(jwtPath.find(item => item === ctx.request.url))
         await next();
     else{
-        let token = ctx.header.authorization
         try {
-            // 解密payLoad，获取用户名和ID
-            payLoad = await verify(token, JWT_SECRET)
-            console.log(payLoad)
-            ctx.user = {
-                username: payload.username,
-                email: payload.email,
-                id: payload.id
+            const token = ctx.header.authorization
+            if (token) {
+                try {
+                    // 解密payLoad，获取用户名和ID
+                    payLoad = await verify(token.split(' ')[1], JWT_SECRET)
+                    ctx.user = {
+                        id: payLoad.id,
+                        username: payLoad.username,
+                        email: payLoad.email
+                    }
+                }catch (err) {
+                    ctx.body = new ErrorModel('Token身份无效')
+                    ctx.body.status = 401
+                }
+                await next();
             }
-        } catch (err) {
-            ctx.body = new ErrorModel('Token身份无效')
-            ctx.body.status = 401
+        }catch (err) {
+            ctx.body = new ErrorModel(err)
         }
     }
 }
