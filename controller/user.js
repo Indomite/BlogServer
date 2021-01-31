@@ -20,14 +20,14 @@ class User {
 
         let params = { username, password, email }
         // 判断用户名是否存在
-        const isExistUser = await UserModel.username(params.username)
+        const isExistUser = await UserModel.userInfo(params.username)
         if(isExistUser){
             ctx.body = new ErrorModel('用户名存在')
             ctx.body.status = 403
         } else {
             try{
                 params.password = genPassword(password);
-                await UserModel.create(params);
+                await UserModel.createUser(params);
                 ctx.body = new SuccessModel('注册成功')
             } catch(err) {
                 ctx.body = new ErrorModel(err)
@@ -35,11 +35,11 @@ class User {
         }
     }
 
-    //用户登录 - 校验用户
+    //用户登录
     static async login(ctx) {
         const { username, password } = ctx.request.body;
         // 查询用户信息
-        const userDetail = await UserModel.username(username);
+        const userDetail = await UserModel.userInfo(username);
         if(!userDetail) {
             ctx.body = new ErrorModel('用户不存在')
             ctx.body.status = 403;
@@ -68,20 +68,24 @@ class User {
         }
     }
 
-    //用户列表 - 获取用户列表数据
-    static async userList(ctx){
-        try{
-            const data = await UserModel.findAllUserList()
-            ctx.body = new SuccessModel('获取用户成功')
+    //用户列表
+    static async userList (ctx) {
+        let params = ctx.request.body;
+        console.log(params)
+        try {
+            const data = await UserModel.findAllUserList(params)
+            console.log(data);
+            ctx.body = new SuccessModel('获取用户信息成功')
             ctx.body.data = data
         } catch(err) {
+            console.log(111);
             ctx.body = new ErrorModel(err)
+            ctx.body.status = 500;
         }
     }
 
-    //管理员编辑用户 - 修改用户信息
-    static async usersInfoUpdate(ctx){
-        // console.log(ctx.params);
+    //编辑用户
+    static async usersInfoUpdate (ctx) {
         let { id } = ctx.params;
         // console.log(id);
         if(!id || isNaN(id)){
@@ -105,33 +109,6 @@ class User {
         try{
             console.log(id,params);
             await UserModel.updateUsers(id,params);
-            let data = await UserModel.userDetail(id);
-            console.log(data);
-            ctx.body = {
-                code: 200,
-                message: "修改成功",
-                // data
-            }
-        } catch (err) {
-            ctx.body = {
-                code: 500,
-                message: '编辑信息失败',
-                data: err
-            }
-        }
-    }
-
-    //编辑信息 - 修改个人信息
-    static async personalInfoUpdate(ctx){
-        let data = ctx.request.body;
-        let params = {
-            password: data.password,
-            email: data.email,
-            avatar_url: data.avatar_url,
-            status: data.status,
-        }
-        try{
-            await UserModel.updateUserInfo(id,params);
             let data = await UserModel.userDetail(id);
             console.log(data);
             ctx.body = {
