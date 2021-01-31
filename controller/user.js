@@ -74,11 +74,10 @@ class User {
         console.log(params)
         try {
             const data = await UserModel.findAllUserList(params)
-            console.log(data);
             ctx.body = new SuccessModel('获取用户信息成功')
             ctx.body.data = data
+            return 
         } catch(err) {
-            console.log(111);
             ctx.body = new ErrorModel(err)
             ctx.body.status = 500;
         }
@@ -87,7 +86,7 @@ class User {
     //编辑用户
     static async usersInfoUpdate (ctx) {
         let { id } = ctx.params;
-        // console.log(id);
+        console.log(query);
         if(!id || isNaN(id)){
             ctx.response.status = 412;
             ctx.body = {
@@ -108,7 +107,7 @@ class User {
         console.log(params);
         try{
             console.log(id,params);
-            await UserModel.updateUsers(id,params);
+            await UserModel.updateUser(id,params);
             let data = await UserModel.userDetail(id);
             console.log(data);
             ctx.body = {

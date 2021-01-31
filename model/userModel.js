@@ -29,15 +29,22 @@ class UserModel {
     //查询所有用户信息
     static async findAllUserList(params){
         let { keyword, pageIndex, pageSize } = params
-        return await User.findAll({
-            limit: +pageSize,
-            offset: (pageIndex - 1) * (+pageSize),
+        let result = await User.findAndCountAll({
+            limit: pageSize,
+            offset: (pageIndex - 1) * (pageSize),
             where: {
                 username: {
                     [Op.like]: '%' + keyword + '%'
                 }
             }
         })
+        return {
+            data: result.rows,
+            pageIndex: pageIndex,
+            pageSize: pageSize,
+            totalCount: result.count,
+            totalPages: Math.ceil(result.count / +pageSize)
+        }
     }
     
     //单个用户信息
@@ -50,7 +57,7 @@ class UserModel {
     }
     
     //更新用户信息
-    static async updateUsers(id, data){
+    static async updateUser(id, data){
         await User.update(data, {
             where: {
                 id
