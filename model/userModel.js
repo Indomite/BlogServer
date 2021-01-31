@@ -57,14 +57,14 @@ class UserModel {
     }
     
     //更新用户信息
-    static async updateUser(id, data){
-        await User.update(data, {
+    static async updateUser(id, params){
+        console.log(params);
+        return await User.update(params, {
             where: {
                 id
             },
-            fields: ['username', 'password', 'email', 'status']
+            fields: ['password', 'email', 'role_id', 'status']
         })
-        return true
     }
 }
 
