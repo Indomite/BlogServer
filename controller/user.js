@@ -70,8 +70,7 @@ class User {
 
     //用户列表
     static async userList (ctx) {
-        let params = ctx.request.body;
-        console.log(params)
+        let params = ctx.request.body
         try {
             const data = await UserModel.findAllUserList(params)
             ctx.body = new SuccessModel('获取用户信息成功')

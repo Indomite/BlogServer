@@ -43,7 +43,7 @@ class UserModel {
             pageIndex: pageIndex,
             pageSize: pageSize,
             totalCount: result.count,
-            totalPages: Math.ceil(result.count / +pageSize)
+            totalPages: Math.ceil(result.count / pageSize)
         }
     }
     
@@ -58,7 +58,6 @@ class UserModel {
     
     //更新用户信息
     static async updateUser(id, params){
-        console.log(params);
         return await User.update(params, {
             where: {
                 id

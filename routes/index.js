@@ -30,13 +30,15 @@ router.post('/email',Email.sentCode);
 //获取文章列表
 router.get('/article', Article.articleList);
 //获取文章信息
-router.get('/article:id', Article.articleInfo);
+router.get('/article/:id', Article.articleInfo);
 //添加文章
 router.post('/article', Article.createArticle);
-//删除文章
-router.delete('/article:id', Article.deleteArticle);
 //更新文章
-router.put('/article:id', Article.updateArticle);
+router.put('/article/:id', Article.updateArticle);
+//删除文章
+router.delete('/article/:id', Article.deleteArticle);
+//点赞文章
+router.put('/likes/:id', Article.likeArticle);
 
 //获取留言列表
 router.get('/comment', Comment.commentList);
