@@ -47,13 +47,4 @@ router.post('/tag', Tag.create);
 //更新标签
 router.put('/tag/:id', Tag.updateTag);
 
-//获取留言列表
-router.get('/comment', Comment.commentList);
-//获取留言信息
-router.get('/comment:id', Comment.commentInfo);
-//添加留言
-router.post('/comment', Comment.createComment);
-//删除留言
-router.delete('/comment:id', Comment.deleteComment);
-
 module.exports = router
