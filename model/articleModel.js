@@ -1,9 +1,9 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize')
 const db = require('../config/database')
 const SequelizeDb = db.sequelize
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
-const Article = require('../schema/article')(SequelizeDb, DataTypes);
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
+const Article = require('../schema/article')(SequelizeDb, DataTypes)
 
 class ArticleModel {
     //查询所有文章信息

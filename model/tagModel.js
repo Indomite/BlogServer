@@ -1,57 +1,58 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize')
 const db = require('../config/database')
-const Sequelize = db.sequelize
-const Tag = require('../schema/tag')(Sequelize, DataTypes);
+const SequelizeDb = db.sequelize
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
+const Tag = require('../schema/tag')(SequelizeDb, DataTypes);
 
 class TagModel {
     //查询所有标签信息
-    static async findAllTagList(){
-        return await Tag.findAll({
-            // attributes: ['']
+    static async findAllTagList(params){
+        let { keyword, pageIndex, pageSize } = params
+        let result = await Tag.findAndCountAll({
+            limit: pageSize,
+            offset: (pageIndex - 1) * (pageSize),
+            where: {
+                name: {
+                    [Op.like]: '%' + keyword + '%'
+                }
+            }
         })
+        return {
+            data: result.rows,
+            pageIndex: pageIndex,
+            pageSize: pageSize,
+            totalCount: result.count,
+            totalPages: Math.ceil(result.count / pageSize)
+        }
     }
 
     //单个标签信息
-    static async tagDetail(id){
+    static async tagDetail(name){
         return await Tag.findOne({
             where:{
-                id
+                name
             }
         })
     }
 
     //增加标签
-    static async createTag(tagInfo){
-        let {name,description,create_time,update_time,status} = tagInfo;
-        await Tag.create({
+    static async createTag(params){
+        let { name, description } = params
+        return await Tag.create({
             name,
-            description,
-            create_time,
-            update_time,
-            status
+            description
         })
-        return true
     }
 
     //更新标签信息
     static async updateTag(id, data){
-        await Tag.update(data, {
+        return await Tag.update(data, {
             where: {
                 id
             },
             fields: ['name', 'description', 'status']
         })
-        return true
-    }
-
-    //删除标签信息
-    static async deleteTag(id){
-        await Tag.destroy({
-            where: {
-                id,
-            }
-        })
-        return true
     }
 }
 

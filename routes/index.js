@@ -40,6 +40,13 @@ router.delete('/article/:id', Article.deleteArticle);
 //点赞文章
 router.put('/likes/:id', Article.likeArticle);
 
+//获取标签列表
+router.get('/tag', Tag.tagList);
+//添加标签
+router.post('/tag', Tag.create);
+//更新标签
+router.put('/tag/:id', Tag.updateTag);
+
 //获取留言列表
 router.get('/comment', Comment.commentList);
 //获取留言信息
@@ -48,16 +55,5 @@ router.get('/comment:id', Comment.commentInfo);
 router.post('/comment', Comment.createComment);
 //删除留言
 router.delete('/comment:id', Comment.deleteComment);
-
-//获取标签列表
-router.get('/tag', Tag.tagList);
-//获取标签信息
-router.get('/tag:id', Tag.tagInfo);
-//添加标签
-router.post('/tag', Tag.createTag);
-//删除标签
-router.delete('/tag:id', Tag.deleteTag);
-//更新标签
-router.put('/tag:id', Tag.updateTag);
 
 module.exports = router
