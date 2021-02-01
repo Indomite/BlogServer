@@ -37,7 +37,6 @@ class Upload {
             // 生成图片文件名字
             let newName = getUploadFileName(file.name)
             let newDir = getUploadDirName()
-            console.log(newDir);
             // 文件目录
             let dir = path.join(__dirname, `../public/upload/${newDir}`);
             checkDirExist(dir)
@@ -46,7 +45,7 @@ class Upload {
             const upStream = fs.createWriteStream(filePath)
             // 可读流通过管道写入可写流
             reader.pipe(upStream)
-            let urlstr = `/upload/${newName}`
+            let urlstr = `${ctx.origin}/upload/${newDir}/${newName}`
             ctx.body = new SuccessModel('上传成功')
             ctx.body.data = {
                 url: urlstr
