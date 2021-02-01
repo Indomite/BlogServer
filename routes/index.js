@@ -5,10 +5,9 @@ const router = new Router({
 
 const User = require('../controller/user')
 const Article = require('../controller/article')
-const Comment = require('../controller/comment')
 const Tag = require('../controller/tag')
 const Email = require('../controller/email')
-
+const Upload = require('../controller/upload')
 
 router.get('/index', async (ctx, next) => {
   ctx.body = {
@@ -26,6 +25,8 @@ router.get('/user', User.userList);
 router.put('/user/:id',User.userUpdate);
 //发送邮件
 router.post('/email',Email.sentCode);
+//上传图片
+router.post('/image',Upload.uploadImage);
 
 //获取文章列表
 router.get('/article', Article.articleList);
