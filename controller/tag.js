@@ -4,7 +4,7 @@ const { SuccessModel, ErrorModel } = require('../model/resModel')
 class Tag {
     //标签列表
     static async tagList(ctx){
-        let params = ctx.request.body
+        let params = ctx.query
         try{
             const data = await TagModel.findAllTagList(params)
             ctx.body = new SuccessModel('获取标签信息成功')

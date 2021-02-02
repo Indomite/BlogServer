@@ -9,7 +9,7 @@ class User {
     // 用户注册
     static async create(ctx){
         let { username, password, email, code} = ctx.request.body
-        if(email !== ctx.session.email) {
+        if(email !== ctx.session.email && token == null) {
             ctx.body = new ErrorModel('邮箱已修改')
             return
         }
@@ -70,7 +70,7 @@ class User {
 
     //用户列表
     static async userList (ctx) {
-        let params = ctx.request.body
+        let params = ctx.query
         try {
             const data = await UserModel.findAllUserList(params)
             ctx.body = new SuccessModel('获取用户信息成功')

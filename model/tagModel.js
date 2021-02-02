@@ -10,8 +10,8 @@ class TagModel {
     static async findAllTagList(params){
         let { keyword, pageIndex, pageSize } = params
         let result = await Tag.findAndCountAll({
-            limit: pageSize,
-            offset: (pageIndex - 1) * (pageSize),
+            limit: +pageSize,
+            offset: (pageIndex - 1) * (+pageSize),
             where: {
                 name: {
                     [Op.like]: '%' + keyword + '%'

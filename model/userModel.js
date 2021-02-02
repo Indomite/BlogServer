@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize')
 const db = require('../config/database')
 const SequelizeDb = db.sequelize
 const Sequelize = require('sequelize');
+const { param } = require('../routes');
 const Op = Sequelize.Op;
 const User = require('../schema/user')(SequelizeDb, DataTypes);
 
@@ -30,8 +31,8 @@ class UserModel {
     static async findAllUserList(params){
         let { keyword, pageIndex, pageSize } = params
         let result = await User.findAndCountAll({
-            limit: pageSize,
-            offset: (pageIndex - 1) * (pageSize),
+            limit: +pageSize,
+            offset: (pageIndex - 1) * (+pageSize),
             where: {
                 username: {
                     [Op.like]: '%' + keyword + '%'

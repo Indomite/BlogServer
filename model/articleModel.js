@@ -10,8 +10,8 @@ class ArticleModel {
     static async findAllArticleList(params){
         let { keyword, pageIndex, pageSize } = params
         let result = await Article.findAndCountAll({
-            limit: pageSize,
-            offset: (pageIndex - 1) * (pageSize),
+            limit: +pageSize,
+            offset: (pageIndex - 1) * (+pageSize),
             where: {
                 headline: {
                     [Op.like]: '%' + keyword + '%'
