@@ -21,6 +21,8 @@ router.post('/user', User.create);
 router.post('/login', User.login);
 //用户列表
 router.get('/user', User.userList);
+//具体用户列表
+router.get('/user/:id', User.userInfo);
 //更改用户信息
 router.put('/user/:id',User.userUpdate);
 //发送邮件

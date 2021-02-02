@@ -81,6 +81,19 @@ class User {
         }
     }
 
+    // 具体用户信息
+    static async userInfo (ctx) {
+        let { id } = ctx.params
+        try {
+            const data = await UserModel.userDetail(id)
+            ctx.body = new SuccessModel('获取用户信息成功')
+            ctx.body.data = data
+        } catch(err) {
+            ctx.body = new ErrorModel(err)
+            ctx.body.status = 500;
+        }
+    }
+
     //编辑用户
     static async userUpdate (ctx) {
         let { id } = ctx.params
