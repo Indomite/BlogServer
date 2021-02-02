@@ -6,6 +6,8 @@ module.exports = [
     '/api/user',
     // 邮件
     '/api/email',
-    // 文章列表
-    '/api/article'
+    // 文章
+    '/api/article',
+    // 标签
+    '/api/tag'
 ];

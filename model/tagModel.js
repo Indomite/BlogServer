@@ -28,10 +28,10 @@ class TagModel {
     }
 
     //单个标签信息
-    static async tagDetail(name){
+    static async tagDetail(id){
         return await Tag.findOne({
             where:{
-                name
+                id
             }
         })
     }

@@ -5,12 +5,12 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const koaBody = require('koa-body')
 const logger = require('koa-logger')
-const cors = require('koa2-cors');
 const session = require('koa-session')
-
 const Router = require('./routes')
+const cors = require('./utils/koa-cors')
 const checkToken = require('./middleware/jwtToken')
 
+app.use(cors);
 app.use(checkToken)
 
 // error handler
@@ -50,18 +50,6 @@ app.use(session({
     maxAge: 24 * 60 * 60 * 1000
   }
 },app))
-
-// 服务端解决跨域
-app.use(cors({
-  origin: function (ctx) {
-      return 'http://localhost:8080'; // 这样就能只允许 http://localhost:8080 这个域名的请求了
-  },
-  exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
-  maxAge: 5,
-  credentials: true,
-  allowMethods: ['GET', 'POST', 'DELETE', 'OPTIONS', 'PUT'],
-  allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
-}))
 
 // routes
 app.use(Router.routes(), Router.allowedMethods());

@@ -7,9 +7,8 @@ const jwtPath = require('./jwtPath')
 const { ErrorModel } = require('../model/resModel')
 
 async function checkLogin(ctx, next) {
-    let method = ctx.request.method;
-    console.log(method);
-    if(jwtPath.find(item => item === ctx.request.url) || method === "GET")
+    let method = ctx.request.method
+    if(jwtPath.find(item => item === ctx.request.url) || method === "GET" || method === "PUT" || method === "DELETE")
         await next();
     else{
         try {

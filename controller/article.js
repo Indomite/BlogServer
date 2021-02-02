@@ -5,7 +5,6 @@ class Article {
     //文章列表
     static async articleList(ctx){
         let params = ctx.query
-        console.log(params);
         try{
             const data = await ArticleModel.findAllArticleList(params)
             ctx.body = new SuccessModel('获取文章信息成功')

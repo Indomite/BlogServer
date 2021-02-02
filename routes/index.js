@@ -45,6 +45,8 @@ router.put('/likes/:id', Article.likeArticle);
 
 //获取标签列表
 router.get('/tag', Tag.tagList);
+//具体标签信息
+router.get('/tag/:id', Tag.tagInfo);
 //添加标签
 router.post('/tag', Tag.create);
 //更新标签

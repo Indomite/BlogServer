@@ -97,13 +97,6 @@ class User {
     //编辑用户
     static async userUpdate (ctx) {
         let { id } = ctx.params
-        const userID = await UserModel.userDetail(id)
-        if(!userID || isNaN(id)){
-            ctx.body = new ErrorModel('用户不存在')
-            ctx.body.status = 401
-            return 
-        }
-
         let data = ctx.request.body
         let params = {
             password: genPassword(data.password),
