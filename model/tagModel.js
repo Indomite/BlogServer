@@ -36,6 +36,15 @@ class TagModel {
         })
     }
 
+    //单个标签信息
+    static async tagInfo(name){
+        return await Tag.findOne({
+            where:{
+                name
+            }
+        })
+    }
+
     //增加标签
     static async createTag(params){
         let { name, description } = params
